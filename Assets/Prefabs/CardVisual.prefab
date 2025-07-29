@@ -210,6 +210,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvas: {fileID: 0}
   cardImage: {fileID: 6208952060305885841}
+  cardBackSprite: {fileID: -1615198837252988192, guid: d46dc3a51383643caa6f43bf12292677, type: 3}
   rotation: {fileID: 5862976466474931636}
   shake: {fileID: 3449025543118524474}
 --- !u!223 &4598112924343541394

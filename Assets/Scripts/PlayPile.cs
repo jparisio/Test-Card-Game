@@ -63,6 +63,7 @@ public class PlayPile : MonoBehaviour
         {
             DiscardPile discardPile = FindFirstObjectByType<DiscardPile>();
             card.transform.parent.SetParent(discardPile.transform);
+            card.cardvisual.Flip(false);
             yield return new WaitForSeconds(0.03f);
         }
         GameManager.instance.UpdateGameState(GameState.DestroyCards);

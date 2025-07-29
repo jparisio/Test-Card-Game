@@ -9,8 +9,9 @@ public class CardVisual : MonoBehaviour
     private Transform cardTransform;
     public Canvas canvas;
     public Image cardImage;
+    public Sprite cardBackSprite;
 
-    [SerializeField]public RectTransform rotation;
+    [SerializeField] public RectTransform rotation;
     [SerializeField]private RectTransform shake;
 
     [Header("Animation Settings")]
@@ -18,10 +19,11 @@ public class CardVisual : MonoBehaviour
     private int shakeStrength = 20;
     private float scaleSize = 1.1f;
     private float lerpSpeed = 30f;
+    private Vector3 springVelocity;
     private Vector3 movementDelta;
     private Vector3 rotationDelta;
 
-    private float rotationSpeed = 25;
+    private float rotationSpeed = 105f;
     private float rotationAmount = 0.5f;
     private bool resetRotationOnDrag = true;
 
@@ -49,7 +51,9 @@ public class CardVisual : MonoBehaviour
     }
 
     private void SmoothFollow(){
-        transform.position = Vector3.Lerp(transform.position, cardTransform.position, Time.deltaTime * lerpSpeed);
+
+        transform.position = SpringLerp(transform.position, cardTransform.position, ref springVelocity, 0.85f, 5f);
+
         if(!parentCard.isDragging){
             resetRotationOnDrag = true;
             rotation.localRotation = Quaternion.Lerp(rotation.localRotation, cardTransform.rotation, Time.deltaTime * lerpSpeed);
@@ -67,25 +71,63 @@ public class CardVisual : MonoBehaviour
 
     private void FollowRotation()
     {
-        Vector3 movement = (transform.position - cardTransform.position);
+        Vector3 movement = transform.position - cardTransform.position;
         movementDelta = Vector3.Lerp(movementDelta, movement, 25 * Time.deltaTime);
         Vector3 movementRotation = (parentCard.isDragging ? movementDelta : movement) * rotationAmount;
         rotationDelta = Vector3.Lerp(rotationDelta, movementRotation, rotationSpeed * Time.deltaTime);
-        transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, Mathf.Clamp(rotationDelta.x, -60, 60));
+
+        transform.eulerAngles = new Vector3(
+            transform.eulerAngles.x,
+            transform.eulerAngles.y,
+            Mathf.Clamp(rotationDelta.x, -60, 60)
+        );
     }
+    
+    private Vector3 SpringLerp(Vector3 current, Vector3 target, ref Vector3 velocity, float damping, float stiffness)
+    {
+        Vector3 force = (target - current) * stiffness;
+        velocity = (velocity + force) * damping;
+        return current + velocity * Time.deltaTime;
+    }
+
+
 
     private void PlaceDraggedCardOnTop()
     {
-        if(parentCard.isDragging && canvas != null){
+        if (parentCard.isDragging && canvas != null)
+        {
 
             canvas.overrideSorting = true;
             canvas.sortingOrder = 100;
         }
     }
+    
+    public void Flip(bool showFront, float duration = 0.1f)
+    {
+
+        if(showFront)
+            cardImage.sprite = cardBackSprite;
+        // Store front sprite (in case parentCard.cardImage changes later)
+            Sprite frontSprite = parentCard.cardImage;
+        Sprite targetSprite = showFront ? frontSprite : cardBackSprite;
+
+
+        // Flip in two phases: scale X to 0, swap sprite, scale X back to 1
+        transform.DOScaleX(0f, duration / 2f)
+            .SetEase(Ease.InCubic)
+            .OnComplete(() =>
+            {
+                cardImage.sprite = targetSprite;
+
+                transform.DOScaleX(1f, duration / 2f)
+                    .SetEase(Ease.OutCubic);
+            });
+    }
+
 
     private void OnCardDragStart(Card card)
     {
-        
+
     }
 
     private void OnCardDragEnd(Card card)

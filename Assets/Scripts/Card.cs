@@ -46,6 +46,7 @@ IDragHandler, IEndDragHandler, IPointerClickHandler, IPointerUpHandler
         visualHandler = FindFirstObjectByType<VisualHandler>();
         cardvisual = Instantiate(cardVisualPrefab, visualHandler.transform);
         cardvisual.Initialize(this);
+        cardvisual.Flip(true);
     }
 
     private void Start()
