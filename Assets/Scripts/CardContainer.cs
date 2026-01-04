@@ -77,6 +77,11 @@ public class CardContainer : MonoBehaviour
         {
             SortCardsByValue();
         }
+
+        if( Input.GetKeyDown(KeyCode.F))
+        {
+            StartCoroutine(FlipAllCards(false));
+        }
     }
 
     private void HandleGameStateChange(GameState newState)
@@ -260,6 +265,13 @@ public class CardContainer : MonoBehaviour
         for (int i = 0; i < cards.Count; i++)
         {
             cards[i].transform.SetParent(transform.GetChild(i), true);
+        }
+    }
+
+    public IEnumerator FlipAllCards(bool faceUp){
+        foreach(Card card in cards){
+            card.cardvisual.Flip(faceUp);
+            yield return new WaitForSeconds(0.1f);
         }
     }
    

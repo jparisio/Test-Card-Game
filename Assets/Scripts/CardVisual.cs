@@ -2,6 +2,7 @@ using System;
 using DG.Tweening;
 using UnityEngine.UI;
 using UnityEngine;
+using Unity.VisualScripting;
 
 public class CardVisual : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class CardVisual : MonoBehaviour
     public Canvas canvas;
     public Image cardImage;
     public Sprite cardBackSprite;
+
+    private CardDescription cardDescription;
 
     [SerializeField] public RectTransform rotation;
     [SerializeField]private RectTransform shake;
@@ -22,6 +25,9 @@ public class CardVisual : MonoBehaviour
     private Vector3 springVelocity;
     private Vector3 movementDelta;
     private Vector3 rotationDelta;
+
+    private float frequency = 5f; 
+    private float dampingRatio = 0.5f; 
 
     private float rotationSpeed = 105f;
     private float rotationAmount = 0.5f;
@@ -40,6 +46,8 @@ public class CardVisual : MonoBehaviour
         cardImage.sprite = parentCard.cardImage;
         //get components
         canvas = GetComponent<Canvas>();
+        
+        cardDescription = GetComponentInChildren<CardDescription>();
     }
 
     // Update is called once per frame
@@ -52,7 +60,7 @@ public class CardVisual : MonoBehaviour
 
     private void SmoothFollow(){
 
-        transform.position = SpringLerp(transform.position, cardTransform.position, ref springVelocity, 0.85f, 5f);
+        transform.position = SpringLerp(transform.position, cardTransform.position, ref springVelocity, frequency, dampingRatio);
 
         if(!parentCard.isDragging){
             resetRotationOnDrag = true;
@@ -83,11 +91,23 @@ public class CardVisual : MonoBehaviour
         );
     }
     
-    private Vector3 SpringLerp(Vector3 current, Vector3 target, ref Vector3 velocity, float damping, float stiffness)
+
+    private Vector3 SpringLerp(Vector3 current, Vector3 target, ref Vector3 velocity, float freq, float ratio)
     {
-        Vector3 force = (target - current) * stiffness;
-        velocity = (velocity + force) * damping;
-        return current + velocity * Time.deltaTime;
+        float dt = Time.deltaTime;
+        
+        float angularFrequency = freq * 2.0f * Mathf.PI;
+        float step = angularFrequency * dt;
+        
+        float det = 1.0f + 2.0f * step * ratio + step * step;
+        
+        Vector3 deltaPos = current - target;
+        Vector3 oldVelocity = velocity;
+        
+        velocity = (oldVelocity - deltaPos * (angularFrequency * angularFrequency * dt)) / det;
+        Vector3 newPos = current + velocity * dt;
+        
+        return newPos;
     }
 
 
@@ -102,7 +122,7 @@ public class CardVisual : MonoBehaviour
         }
     }
     
-    public void Flip(bool showFront, float duration = 0.1f)
+    public void Flip(bool showFront, float duration = 0.4f)
     {
 
         if(showFront)
@@ -114,13 +134,13 @@ public class CardVisual : MonoBehaviour
 
         // Flip in two phases: scale X to 0, swap sprite, scale X back to 1
         transform.DOScaleX(0f, duration / 2f)
-            .SetEase(Ease.InCubic)
+            .SetEase(Ease.OutBounce)
             .OnComplete(() =>
             {
                 cardImage.sprite = targetSprite;
 
                 transform.DOScaleX(1f, duration / 2f)
-                    .SetEase(Ease.OutCubic);
+                    .SetEase(Ease.OutBounce);
             });
     }
 
@@ -147,11 +167,14 @@ public class CardVisual : MonoBehaviour
 
         DOTween.Kill(2, true);
         rotation.DOPunchRotation(Vector3.forward * 5f, easeDuration, shakeStrength, 1).SetId(2);
+        cardDescription.PlayAnimation();
+
     }
 
     private void PointerExit(Card card)
     {
         transform.DOScale(1, .2f).SetEase(Ease.OutBack);
+        cardDescription.Hide();
     }
 
     public void OnPointerUp(Card card)
