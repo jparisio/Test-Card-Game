@@ -1,8 +1,6 @@
-using System;
 using DG.Tweening;
 using UnityEngine.UI;
 using UnityEngine;
-using Unity.VisualScripting;
 
 public class CardVisual : MonoBehaviour
 {
@@ -15,7 +13,7 @@ public class CardVisual : MonoBehaviour
     private CardDescription cardDescription;
 
     [SerializeField] public RectTransform rotation;
-    [SerializeField]private RectTransform shake;
+    [SerializeField] private RectTransform shake;
 
     [Header("Animation Settings")]
     private float easeDuration = 0.2f;
@@ -134,13 +132,13 @@ public class CardVisual : MonoBehaviour
 
         // Flip in two phases: scale X to 0, swap sprite, scale X back to 1
         transform.DOScaleX(0f, duration / 2f)
-            .SetEase(Ease.OutBounce)
+            .SetEase(Ease.OutBack)
             .OnComplete(() =>
             {
                 cardImage.sprite = targetSprite;
 
                 transform.DOScaleX(1f, duration / 2f)
-                    .SetEase(Ease.OutBounce);
+                    .SetEase(Ease.OutBack);
             });
     }
 
@@ -167,7 +165,6 @@ public class CardVisual : MonoBehaviour
 
         DOTween.Kill(2, true);
         rotation.DOPunchRotation(Vector3.forward * 5f, easeDuration, shakeStrength, 1).SetId(2);
-        cardDescription.PlayAnimation();
 
     }
 

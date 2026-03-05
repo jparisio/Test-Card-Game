@@ -36,7 +36,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 150, y: 200}
+  m_SizeDelta: {x: 187.5, y: 250}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5864193522234523834
 CanvasRenderer:
@@ -97,6 +97,21 @@ MonoBehaviour:
   OnCardClick:
     m_PersistentCalls:
       m_Calls: []
+  OnCardHoverEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  OnCardHoverExit:
+    m_PersistentCalls:
+      m_Calls: []
+  OnCardPointerUp:
+    m_PersistentCalls:
+      m_Calls: []
   selected: 0
   isDragging: 0
+  yOffset: 1
+  rotationOffset: 1
   cardVisualPrefab: {fileID: 8109783297549997208, guid: f739f397d80274e4a8521acd86e46bfd, type: 3}
+  cardvisual: {fileID: 0}
+  suit: 0
+  value: 0
+  cardImage: {fileID: 0}

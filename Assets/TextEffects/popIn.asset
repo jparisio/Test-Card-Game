@@ -19,7 +19,7 @@ MonoBehaviour:
     bakeCurves: 1
   appearance:
     stateParams:
-      scale: {x: 1.6, y: 1.6, z: 1}
+      scale: {x: 1.4, y: 1.4, z: 1}
     phaseParams:
       charOffset: 0
       wordOffset: 0
@@ -37,10 +37,10 @@ MonoBehaviour:
     playback: {fileID: 0}
   disappearance:
     stateParams:
-      scale: {x: 1, y: 1, z: 1}
+      scale: {x: 0, y: 0, z: 0}
     phaseParams:
       charOffset: 0
       wordOffset: 0
-      speed: 1
-    stateCurve: {fileID: 0}
+      speed: 5
+    stateCurve: {fileID: 11400000, guid: 8f5b92df355318b41a827b6341844736, type: 2}
     playback: {fileID: 0}

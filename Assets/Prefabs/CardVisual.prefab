@@ -148,7 +148,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'This Card Does Something Special '
+  m_text: This Card Does Something <rainb>Special</rainb>
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -175,13 +175,13 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 26.3
+  m_fontSize: 21.4
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 1
+  m_fontStyle: 9
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -295,8 +295,8 @@ MonoBehaviour:
     referenceFontSize: 12
   sharedSettings: {fileID: 0}
   animationLoop: 0
-  databaseEffects: {fileID: 0}
-  styleSheet: {fileID: 0}
+  databaseEffects: {fileID: 11400000, guid: 97da1bdf566b589458494ef757ccb8bb, type: 2}
+  styleSheet: {fileID: 11400000, guid: ba192cc0c25e54f2faf6411514bfe0b7, type: 2}
 --- !u!1 &6107824807612230366
 GameObject:
   m_ObjectHideFlags: 0
@@ -333,7 +333,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 150, y: 200}
+  m_SizeDelta: {x: 187.5, y: 250}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4863716082403896038
 CanvasRenderer:
@@ -409,7 +409,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 166}
+  m_AnchoredPosition: {x: 0, y: 184}
   m_SizeDelta: {x: 300, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3171735643801659981

@@ -1,10 +1,6 @@
-using System;
 using UnityEngine;
 using UnityEngine.Events;
-using DG.Tweening;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
-using UnityEngine.UIElements;
 
 public class Card : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IBeginDragHandler, 
 IDragHandler, IEndDragHandler, IPointerClickHandler, IPointerUpHandler
@@ -101,6 +97,7 @@ IDragHandler, IEndDragHandler, IPointerClickHandler, IPointerUpHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        if(eventData.button != PointerEventData.InputButton.Left) return;
         OnCardClick.Invoke(this);
     }
 
